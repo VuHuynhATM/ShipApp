@@ -149,7 +149,7 @@ export class AppComponent {
         this.getData();
     }
     getData() {
-        return this.http.get<Reponse>('http://esmpfree-001-site1.etempurl.com/api/Order/get_order_status').subscribe((data) => {
+        return this.http.get<Reponse>('http://esmpfree-001-site1.etempurl.com/api/Order/get_order_status_ship').subscribe((data) => {
             //console.log(data);
             this.reponse = data;
             this.data != data.data;
