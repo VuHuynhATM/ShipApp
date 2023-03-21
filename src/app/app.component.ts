@@ -149,7 +149,7 @@ export class AppComponent {
         this.getData();
     }
     getData() {
-        return this.http.get<Reponse>('http://esmpfree-001-site1.etempurl.com/api/Order/get_order_status_ship').subscribe((data) => {
+        return this.http.get<Reponse>('https://esmpfree-001-site1.etempurl.com/api/Order/get_order_status_ship').subscribe((data) => {
             //console.log(data);
             this.reponse = data;
             this.data != data.data;
@@ -158,14 +158,14 @@ export class AppComponent {
     }
     searchData() {
         if (this.userID != null && this.storeID != null) {
-            return this.http.get<Reponse>('http://esmpfree-001-site1.etempurl.com/api/Order/get_order_status?userID=' + this.userID + '&storeID=' + this.storeID).subscribe((data) => {
+            return this.http.get<Reponse>('https://esmpfree-001-site1.etempurl.com/api/Order/get_order_status?userID=' + this.userID + '&storeID=' + this.storeID).subscribe((data) => {
                 //console.log(data);
                 this.reponse = data;
                 this.data != data.data;
                 console.log(this.reponse);
             })
         } else if (this.userID != null) {
-            return this.http.get<Reponse>('http://esmpfree-001-site1.etempurl.com/api/Order/get_order_status?userID=' + this.userID).subscribe((data) => {
+            return this.http.get<Reponse>('https://esmpfree-001-site1.etempurl.com/api/Order/get_order_status?userID=' + this.userID).subscribe((data) => {
                 //console.log(data);
                 this.reponse = data;
                 this.data != data.data;
