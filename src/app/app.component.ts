@@ -172,14 +172,14 @@ export class AppComponent {
                 console.log(this.reponse);
             })
         } else if (this.storeID != null) {
-            return this.http.get<Reponse>('http://esmpfree-001-site1.etempurl.com/api/Order/get_order_status?storeID=' + this.storeID).subscribe((data) => {
+            return this.http.get<Reponse>('https://esmpfree-001-site1.etempurl.com/api/Order/get_order_status?storeID=' + this.storeID).subscribe((data) => {
                 //console.log(data);
                 this.reponse = data;
                 this.data != data.data;
                 console.log(this.reponse);
             })
         }else{
-            return this.http.get<Reponse>('http://esmpfree-001-site1.etempurl.com/api/Order/get_order_status').subscribe((data) => {
+            return this.http.get<Reponse>('https://esmpfree-001-site1.etempurl.com/api/Order/get_order_status').subscribe((data) => {
                 //console.log(data);
                 this.reponse = data;
                 this.data != data.data;
@@ -201,7 +201,7 @@ export class AppComponent {
         console.log(this.selectedStatus);
         console.log(this.selectedreason);
         let currentDate = new Date();
-        var hour = currentDate.getUTCHours() + 7;
+        var hour = currentDate.getUTCHours();
         currentDate.setUTCHours(hour);
         const reasontxt = this.selectedreason.split('-')[0];
         let reason_code = this.selectedreason.split('-')[1];
@@ -228,7 +228,7 @@ export class AppComponent {
                 Authorization: 'my-auth-token'
             })
         };
-        this.http.post('http://esmpfree-001-site1.etempurl.com/api/Ship', this.request, httpOptions).subscribe(data => {
+        this.http.post('https://esmpfree-001-site1.etempurl.com/api/Ship', this.request, httpOptions).subscribe(data => {
             console.log(data);
         });
         this.hideDialog();
