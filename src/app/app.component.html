@@ -1,93 +1,171 @@
 <p-toast></p-toast>
-
-<div class="card">
-  <p-toolbar styleClass="p-mb-4">
-    <ng-template pTemplate="left">
-      <div class="grid p-fluid">
-        <div class="field col-12 md:col-3">
-          <label for="withoutgrouping">Mã người mua</label>
-          <p-inputNumber [(ngModel)]="userID" mode="decimal" inputId="withoutgrouping" [useGrouping]="false">
-          </p-inputNumber>
-        </div>
-        <div class="field col-12 md:col-3">
-          <label for="withoutgrouping">Mã cửa hàng</label>
-          <p-inputNumber [(ngModel)]="storeID" mode="decimal" inputId="withoutgrouping" [useGrouping]="false">
-          </p-inputNumber>
-        </div>
-      </div>
-    </ng-template>
-
-    <ng-template pTemplate="right">
-      <p-button label="Tìm kiếm" icon="pi pi-search" iconPos="right" (click)="searchData()"></p-button>
-    </ng-template>
-  </p-toolbar>
-
-  <p-table #dt [value]="reponse.data!" [rows]="10" [paginator]="true"
-    [globalFilterFields]="['name','country.name','representative.name','status']"
-    [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [showCurrentPageReport]="true">
-    <ng-template pTemplate="caption">
-      <div class="p-d-flex p-ai-center p-jc-between">
-        <h5 class="p-m-0">Manage Products</h5>
-      </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-      <tr>
-        <th pSortableColumn="name">Đơn hàng</th>
-        <th pSortableColumn="mv">Mã vận</th>
-        <th pSortableColumn="mtt">Mã Trạng thái</th>
-        <th pSortableColumn="tt">Trạng thái</th>
-        <th pSortableColumn="mnn">Mã Nguyên nhân</th>
-        <th pSortableColumn="nn">Nguyên nhân</th>
-        <th pSortableColumn="nn">TT</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-product>
-      <tr>
-        <td>{{product.orderID}}</td>
-        <td>{{product.orderShip.labelID}}</td>
-        <td>{{product.orderShip.shipStatusID}}</td>
-        <td>{{product.orderShip.status}}</td>
-        <td>{{product.orderShip.reason_code}}</td>
-        <td>{{product.orderShip.reason}}</td>
-        <td>
-          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-            (click)="editProduct(product)"></button>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
-
-<p-dialog [(visible)]="productDialog" [style]="{width: '50%',height: '80%'}" header="Cập nhập trạng thái đơn" [modal]="true"
-  styleClass="p-fluid">
-  <ng-template pTemplate="content">
-    <div class="p-field">
-      <label for="name">Mã đơn hàng: {{order.orderID}}</label>
-    </div>
-    <div class="p-field">
-    <label for="name">Mã vận: {{order.orderShip!.labelID}}</label>
-    </div>
-    <div class="p-field">
-      <label>Trạng thái</label>
-      <p-dropdown [options]="statuslist" [(ngModel)]="selectedStatus" optionLabel="status"></p-dropdown>
-    </div>
-    <div class="p-field">
-      <label>Nguyên nhân</label>
-      <p-dropdown [options]="reasonlist" [(ngModel)]="selectedreason" [group]="true">
-        <ng-template let-group pTemplate="group">
-          <div class="p-d-flex p-ai-center">
-            <span>{{group.label}}</span>
+<p-tabView>
+  <p-tabPanel header="order">
+    <div class="card">
+      <!-- <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+          <div class="grid p-fluid">
+            <div class="field col-12 md:col-3">
+              <label for="withoutgrouping">Mã người mua</label>
+              <p-inputNumber [(ngModel)]="userID" mode="decimal" inputId="withoutgrouping" [useGrouping]="false">
+              </p-inputNumber>
+            </div>
+            <div class="field col-12 md:col-3">
+              <label for="withoutgrouping">Mã cửa hàng</label>
+              <p-inputNumber [(ngModel)]="storeID" mode="decimal" inputId="withoutgrouping" [useGrouping]="false">
+              </p-inputNumber>
+            </div>
           </div>
         </ng-template>
-      </p-dropdown>
+
+        <ng-template pTemplate="right">
+          <p-button label="Tìm kiếm" icon="pi pi-search" iconPos="right" (click)="searchData()"></p-button>
+        </ng-template>
+      </p-toolbar> -->
+
+      <p-table #dt [value]="reponse.data!" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','country.name','representative.name','status']" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+          <div class="p-d-flex p-ai-center p-jc-between">
+            <h5 class="p-m-0">Manage Products</h5>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="name">Đơn hàng</th>
+            <th pSortableColumn="mv">Mã vận</th>
+            <th pSortableColumn="mtt">Mã Trạng thái</th>
+            <th pSortableColumn="tt">Trạng thái</th>
+            <th pSortableColumn="mnn">Mã Nguyên nhân</th>
+            <th pSortableColumn="nn">Nguyên nhân</th>
+            <th pSortableColumn="nn">TT</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>{{product.orderID}}</td>
+            <td>{{product.orderShip.labelID}}</td>
+            <td>{{product.orderShip.shipStatusID}}</td>
+            <td>{{product.orderShip.status}}</td>
+            <td>{{product.orderShip.reason_code}}</td>
+            <td>{{product.orderShip.reason}}</td>
+            <td>
+              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                (click)="editProduct(product)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
-  </ng-template>
 
-  <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="savefunc()"></button>
-  </ng-template>
-</p-dialog>
+    <p-dialog [(visible)]="productDialog" [style]="{width: '50%',height: '80%'}" header="Cập nhập trạng thái đơn"
+      [modal]="true" styleClass="p-fluid">
+      <ng-template pTemplate="content">
+        <div class="p-field">
+          <label for="name">Mã đơn hàng: {{order.orderID}}</label>
+        </div>
+        <div class="p-field">
+          <label for="name">Mã vận: {{order.orderShip!.labelID}}</label>
+        </div>
+        <div class="p-field">
+          <label>Trạng thái</label>
+          <p-dropdown [options]="statuslist" [(ngModel)]="selectedStatus" optionLabel="status"></p-dropdown>
+        </div>
+        <div class="p-field">
+          <label>Nguyên nhân</label>
+          <p-dropdown [options]="reasonlist" [(ngModel)]="selectedreason" [group]="true">
+            <ng-template let-group pTemplate="group">
+              <div class="p-d-flex p-ai-center">
+                <span>{{group.label}}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+      </ng-template>
 
-<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="savefunc()"></button>
+      </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+  </p-tabPanel>
+  <p-tabPanel header="service">
+    
+    <div class="card">
+      <p-table #dt [value]="reponseservice.data!" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','country.name','representative.name','status']" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+          <div class="p-d-flex p-ai-center p-jc-between">
+            <h5 class="p-m-0">Manage Service</h5>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="name">Dịch vụ</th>
+            <th pSortableColumn="name">Mã cuủa đối tác</th>
+            <th pSortableColumn="mv">Mã vận</th>
+            <th pSortableColumn="mtt">Mã Trạng thái</th>
+            <th pSortableColumn="tt">Trạng thái</th>
+            <th pSortableColumn="mnn">Mã Nguyên nhân</th>
+            <th pSortableColumn="nn">Nguyên nhân</th>
+            <th pSortableColumn="nn">TT</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>{{product.afterBuyServiceID}}</td>
+            <td>{{product.partner_id}}</td>
+            <td>{{product.orderShip.labelID}}</td>
+            <td>{{product.orderShip.shipStatusID}}</td>
+            <td>{{product.orderShip.status}}</td>
+            <td>{{product.orderShip.reason_code}}</td>
+            <td>{{product.orderShip.reason}}</td>
+            <td>
+              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                (click)="editProductservice(product)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <p-dialog [(visible)]="producservicetDialog" [style]="{width: '50%',height: '80%'}" header="Cập nhập trạng thái đơn"
+      [modal]="true" styleClass="p-fluid">
+      <ng-template pTemplate="content">
+        <div class="p-field">
+          <label for="name">Mã đơn hàng: {{servive.afterBuyServiceID}}</label>
+        </div>
+        <div class="p-field">
+          <label for="name">Mã vận: {{servive.orderShip!.labelID}}</label>
+        </div>
+        <div class="p-field">
+          <label>Trạng thái</label>
+          <p-dropdown [options]="statuslist" [(ngModel)]="selectedStatus" optionLabel="status"></p-dropdown>
+        </div>
+        <div class="p-field">
+          <label>Nguyên nhân</label>
+          <p-dropdown [options]="reasonlist" [(ngModel)]="selectedreason" [group]="true">
+            <ng-template let-group pTemplate="group">
+              <div class="p-d-flex p-ai-center">
+                <span>{{group.label}}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialogservice()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="savefuncservice()"></button>
+      </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+  </p-tabPanel>
+</p-tabView>

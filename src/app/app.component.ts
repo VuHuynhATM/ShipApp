@@ -47,6 +47,19 @@ export class AppComponent {
 
     submitted!: boolean;
 
+    //service
+
+    producservicetDialog!: boolean;
+    reponseservice!: Reponse;
+
+    dataservice!: any[];
+
+    servive!: any;
+
+    selectedservicereason!: string;
+
+    submittedservice!: boolean;
+
     constructor(private http: HttpClient, private messageService: MessageService, private confirmationService: ConfirmationService) {
         this.statuslist = [
             { status_code: -1, status: 'Hủy' },
@@ -147,11 +160,20 @@ export class AppComponent {
     ngOnInit() {
         //this.productService.getProducts().then(data => this.products = data);
         this.getData();
+        this.getDataService();
     }
     getData() {
-        return this.http.get<Reponse>('https://esmpfree-001-site1.etempurl.com/api/Order/get_order_status_ship').subscribe((data) => {
+        return this.http.get<Reponse>('https://esmpfree-001-site1.etempurl.com/api/Order/get_order_status_ship?page=1').subscribe((data) => {
             //console.log(data);
             this.reponse = data;
+            this.data != data.data;
+            console.log(this.reponse);
+        })
+    }
+    getDataService() {
+        return this.http.get<Reponse>('https://esmpfree-001-site1.etempurl.com/api/AfterBuyService/ship?page=1').subscribe((data) => {
+            //console.log(data);
+            this.reponseservice = data;
             this.data != data.data;
             console.log(this.reponse);
         })
@@ -161,7 +183,7 @@ export class AppComponent {
             return this.http.get<Reponse>('https://esmpfree-001-site1.etempurl.com/api/Order/get_order_status?userID=' + this.userID + '&storeID=' + this.storeID).subscribe((data) => {
                 //console.log(data);
                 this.reponse = data;
-                this.data != data.data;
+                this.dataservice != data.data;
                 console.log(this.reponse);
             })
         } else if (this.userID != null) {
@@ -233,5 +255,51 @@ export class AppComponent {
         });
         this.hideDialog();
         this.getData();
+    }
+    //service
+    editProductservice(product: any) {
+        this.servive = { ...product };
+        this.producservicetDialog = true;
+    }
+    hideDialogservice() {
+        this.producservicetDialog = false;
+        this.submitted = false;
+    }
+    savefuncservice() {
+        console.log(this.selectedStatus);
+        console.log(this.selectedreason);
+        let currentDate = new Date();
+        var hour = currentDate.getUTCHours();
+        currentDate.setUTCHours(hour);
+        const reasontxt = this.selectedreason.split('-')[0];
+        let reason_code = this.selectedreason.split('-')[1];
+        if (reason_code == undefined) {
+            reason_code = "";
+        }
+        this.request = {
+            action_time: new Date(currentDate).toISOString(),
+            fee: 0,
+            label_id: this.servive.orderShip?.labelID,
+            partner_id: this.servive.partner_id,
+            reason: reasontxt,
+            reason_code: reason_code,
+            return_part_package: 0,
+            status_id: this.selectedStatus.status_code,
+            weight: 0,
+        }
+        const headers = { 'content-type': 'application/json' }
+        const body = JSON.stringify(this.request);
+        console.log(this.request);
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: 'my-auth-token'
+            })
+        };
+        this.http.post('https://esmpfree-001-site1.etempurl.com/api/Ship', this.request, httpOptions).subscribe(data => {
+            console.log(data);
+        });
+        this.hideDialogservice();
+        this.getDataService();
     }
 }
