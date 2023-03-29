@@ -32,7 +32,7 @@ export class AppComponent {
     order!: Order;
 
     userID!: number;
-    
+
     storeID!: number;
 
     statuslist!: Status[];
@@ -200,7 +200,7 @@ export class AppComponent {
                 this.data != data.data;
                 console.log(this.reponse);
             })
-        }else{
+        } else {
             return this.http.get<Reponse>('https://esmpfree-001-site1.etempurl.com/api/Order/get_order_status').subscribe((data) => {
                 //console.log(data);
                 this.reponse = data;
@@ -250,11 +250,12 @@ export class AppComponent {
                 Authorization: 'my-auth-token'
             })
         };
-        this.http.post('https://esmpfree-001-site1.etempurl.com/api/Ship', this.request, httpOptions).subscribe(data => {
+        this.http.post('https://esmpfree-001-site1.etempurl.com/api/Ship', this.request, httpOptions).toPromise().then(data => {
             console.log(data);
+            this.hideDialog();
+            this.getData();
         });
-        this.hideDialog();
-        this.getData();
+
     }
     //service
     editProductservice(product: any) {
@@ -296,10 +297,12 @@ export class AppComponent {
                 Authorization: 'my-auth-token'
             })
         };
-        this.http.post('https://esmpfree-001-site1.etempurl.com/api/Ship', this.request, httpOptions).subscribe(data => {
+        this.http.post('https://esmpfree-001-site1.etempurl.com/api/Ship', this.request, httpOptions).toPromise().then(data => {
             console.log(data);
+            this.getDataService();
+            this.hideDialogservice();
         });
-        this.hideDialogservice();
-        this.getDataService();
+
+
     }
 }
