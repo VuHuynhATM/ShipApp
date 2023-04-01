@@ -223,7 +223,7 @@ export class AppComponent {
         console.log(this.selectedStatus);
         console.log(this.selectedreason);
         let currentDate = new Date();
-        var hour = currentDate.getUTCHours()-7;
+        var hour = currentDate.getUTCHours();
         currentDate.setUTCHours(hour);
         const reasontxt = this.selectedreason.split('-')[0];
         let reason_code = this.selectedreason.split('-')[1];
@@ -270,7 +270,7 @@ export class AppComponent {
         console.log(this.selectedStatus);
         console.log(this.selectedreason);
         let currentDate = new Date();
-        var hour = currentDate.getUTCHours()-7;
+        var hour = currentDate.getUTCHours();
         currentDate.setUTCHours(hour);
         const reasontxt = this.selectedreason.split('-')[0];
         let reason_code = this.selectedreason.split('-')[1];
