@@ -297,7 +297,7 @@ export class AppComponent {
                 Authorization: 'my-auth-token'
             })
         };
-        this.http.post('https://localhost:7026/api/Ship', this.request, httpOptions).toPromise().then(data => {
+        this.http.post('https://esmpfree-001-site1.etempurl.com/api/Ship', this.request, httpOptions).toPromise().then(data => {
             console.log(data);
             this.getDataService();
             this.hideDialogservice();
